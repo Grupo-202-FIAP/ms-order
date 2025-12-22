@@ -2,6 +2,28 @@ version: "3.8"
 
 services:
 
+  order-api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: order-api
+    restart: always
+    networks:
+      - order-network
+    environment:
+      - SPRING_PROFILES_ACTIVE=local
+      - MONGO_DB_URI=mongodb://root:password@order-db:27017/order-db?authSource=admin
+      - AWS_REGION=us-east-1
+      - AWS_ACCESS_KEY_ID=test
+      - AWS_SECRET_ACCESS_KEY=test
+      - SQS_ORDER_QUEUE=order-queue
+      - SQS_ORDER_CALLBACK_QUEUE=order-callback-queue
+    ports:
+      - "8079:8079"
+    depends_on:
+      - order-db
+      - order-localstack
+
   order-db:
     image: mongo:latest
     container_name: order-db

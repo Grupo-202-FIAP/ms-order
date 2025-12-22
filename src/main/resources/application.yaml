@@ -2,8 +2,9 @@ spring:
   application:
     name: ms-order
 
-  mongodb:
-    uri: ${MONGO_DB_URI}
+  data:
+    mongodb:
+      uri: ${MONGO_DB_URI}
 
   cloud:
     aws:

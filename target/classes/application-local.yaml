@@ -2,8 +2,9 @@ spring:
   application:
     name: ms-order
 
-  mongodb:
-    uri: mongodb://root:password@localhost:27017/order-db?authSource=admin
+  data:
+    mongodb:
+      uri: mongodb://root:password@order-db:27017/order-db?authSource=admin
 
   cloud:
     aws:
@@ -13,7 +14,7 @@ spring:
         access-key: test
         secret-key: test
       sqs:
-        endpoint: http://localhost:4566
+        endpoint: http://localstack:4566
 
   sqs:
     queues:

@@ -1,4 +1,4 @@
-package com.nexTime.order.config.sqs;
+package com.nexTime.order.application.config.sqs;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
