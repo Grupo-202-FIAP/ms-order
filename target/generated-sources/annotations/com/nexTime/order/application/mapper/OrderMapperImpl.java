@@ -1,20 +1,21 @@
 package com.nexTime.order.application.mapper;
 
-import com.nexTime.order.domain.enums.OrderStatus;
+import com.nexTime.order.infrastructure.controller.dto.request.OrderItemRequest;
 import com.nexTime.order.infrastructure.controller.dto.request.OrderRequest;
 import com.nexTime.order.infrastructure.controller.dto.response.OrderItemResponse;
 import com.nexTime.order.infrastructure.controller.dto.response.OrderResponse;
+import com.nexTime.order.infrastructure.controller.dto.response.ProductResponse;
 import com.nexTime.order.infrastructure.persistence.document.Order;
-import java.math.BigDecimal;
-import java.time.LocalDateTime;
+import com.nexTime.order.infrastructure.persistence.document.OrderItem;
+import com.nexTime.order.infrastructure.persistence.document.Product;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 import javax.annotation.processing.Generated;
 import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2025-12-23T01:12:15-0300",
+    date = "2025-12-23T01:49:19-0300",
     comments = "version: 1.5.5.Final, compiler: javac, environment: Java 17.0.12 (Oracle Corporation)"
 )
 @Component
@@ -26,9 +27,12 @@ public class OrderMapperImpl implements OrderMapper {
             return null;
         }
 
-        Order order = new Order();
+        Order.OrderBuilder order = Order.builder();
 
-        return order;
+        order.customerId( request.customerId() );
+        order.items( orderItemRequestListToOrderItemList( request.items() ) );
+
+        return order.build();
     }
 
     @Override
@@ -37,15 +41,83 @@ public class OrderMapperImpl implements OrderMapper {
             return null;
         }
 
-        UUID id = null;
-        String identifier = null;
-        BigDecimal totalPrice = null;
-        OrderStatus status = null;
-        LocalDateTime createdAt = null;
-        List<OrderItemResponse> items = null;
+        OrderResponse.OrderResponseBuilder orderResponse = OrderResponse.builder();
 
-        OrderResponse orderResponse = new OrderResponse( id, identifier, totalPrice, status, createdAt, items );
+        orderResponse.id( order.getId() );
+        orderResponse.identifier( order.getIdentifier() );
+        orderResponse.totalPrice( order.getTotalPrice() );
+        orderResponse.status( order.getStatus() );
+        orderResponse.createdAt( order.getCreatedAt() );
+        orderResponse.items( orderItemListToOrderItemResponseList( order.getItems() ) );
 
-        return orderResponse;
+        return orderResponse.build();
+    }
+
+    protected OrderItem orderItemRequestToOrderItem(OrderItemRequest orderItemRequest) {
+        if ( orderItemRequest == null ) {
+            return null;
+        }
+
+        OrderItem.OrderItemBuilder orderItem = OrderItem.builder();
+
+        orderItem.quantity( orderItemRequest.quantity() );
+
+        return orderItem.build();
+    }
+
+    protected List<OrderItem> orderItemRequestListToOrderItemList(List<OrderItemRequest> list) {
+        if ( list == null ) {
+            return null;
+        }
+
+        List<OrderItem> list1 = new ArrayList<OrderItem>( list.size() );
+        for ( OrderItemRequest orderItemRequest : list ) {
+            list1.add( orderItemRequestToOrderItem( orderItemRequest ) );
+        }
+
+        return list1;
+    }
+
+    protected ProductResponse productToProductResponse(Product product) {
+        if ( product == null ) {
+            return null;
+        }
+
+        ProductResponse.ProductResponseBuilder productResponse = ProductResponse.builder();
+
+        productResponse.id( product.getId() );
+        productResponse.name( product.getName() );
+        productResponse.unitPrice( product.getUnitPrice() );
+
+        return productResponse.build();
+    }
+
+    protected OrderItemResponse orderItemToOrderItemResponse(OrderItem orderItem) {
+        if ( orderItem == null ) {
+            return null;
+        }
+
+        OrderItemResponse.OrderItemResponseBuilder orderItemResponse = OrderItemResponse.builder();
+
+        orderItemResponse.id( orderItem.getId() );
+        orderItemResponse.product( productToProductResponse( orderItem.getProduct() ) );
+        if ( orderItem.getQuantity() != null ) {
+            orderItemResponse.quantity( orderItem.getQuantity() );
+        }
+
+        return orderItemResponse.build();
+    }
+
+    protected List<OrderItemResponse> orderItemListToOrderItemResponseList(List<OrderItem> list) {
+        if ( list == null ) {
+            return null;
+        }
+
+        List<OrderItemResponse> list1 = new ArrayList<OrderItemResponse>( list.size() );
+        for ( OrderItem orderItem : list ) {
+            list1.add( orderItemToOrderItemResponse( orderItem ) );
+        }
+
+        return list1;
     }
 }

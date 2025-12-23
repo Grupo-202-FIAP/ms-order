@@ -1,17 +1,14 @@
 package com.nexTime.order.application.mapper;
 
-import com.nexTime.order.domain.enums.Category;
 import com.nexTime.order.infrastructure.controller.dto.request.ProductRequest;
 import com.nexTime.order.infrastructure.controller.dto.response.ProductResponse;
 import com.nexTime.order.infrastructure.persistence.document.Product;
-import java.math.BigDecimal;
-import java.time.LocalDateTime;
 import javax.annotation.processing.Generated;
 import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2025-12-23T01:12:15-0300",
+    date = "2025-12-23T01:49:19-0300",
     comments = "version: 1.5.5.Final, compiler: javac, environment: Java 17.0.12 (Oracle Corporation)"
 )
 @Component
@@ -23,9 +20,12 @@ public class ProductMapperImpl implements ProductMapper {
             return null;
         }
 
-        Product product = new Product();
+        Product.ProductBuilder product = Product.builder();
 
-        return product;
+        product.name( request.name() );
+        product.unitPrice( request.unitPrice() );
+
+        return product.build();
     }
 
     @Override
@@ -34,15 +34,12 @@ public class ProductMapperImpl implements ProductMapper {
             return null;
         }
 
-        Long id = null;
-        String name = null;
-        Category category = null;
-        BigDecimal unitPrice = null;
-        LocalDateTime createdAt = null;
-        LocalDateTime updatedAt = null;
+        ProductResponse.ProductResponseBuilder productResponse = ProductResponse.builder();
 
-        ProductResponse productResponse = new ProductResponse( id, name, category, unitPrice, createdAt, updatedAt );
+        productResponse.id( product.getId() );
+        productResponse.name( product.getName() );
+        productResponse.unitPrice( product.getUnitPrice() );
 
-        return productResponse;
+        return productResponse.build();
     }
 }

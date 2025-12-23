@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="pt"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Order.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">order</a> &gt; <a href="index.source.html" class="el_package">com.nexTime.order.infrastructure.persistence.document</a> &gt; <span class="el_source">Order.java</span></div><h1>Order.java</h1><pre class="source lang-java linenums">package com.nexTime.order.infrastructure.persistence.document;
+
+import com.nexTime.order.domain.enums.OrderStatus;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.UUID;
+
+<span class="pc bpc" id="L19" title="85 of 86 branches missed.">@Data</span>
+<span class="pc" id="L20">@Builder</span>
+<span class="fc" id="L21">@AllArgsConstructor</span>
+<span class="nc" id="L22">@NoArgsConstructor</span>
+@Document(collection = &quot;order&quot;)
+public class Order {
+    @Id
+<span class="fc" id="L26">    private UUID id;</span>
+<span class="fc" id="L27">    private UUID transactionId;</span>
+<span class="fc" id="L28">    private String identifier;</span>
+<span class="fc" id="L29">    private BigDecimal totalPrice;</span>
+<span class="nc" id="L30">    private Integer totalItems;</span>
+<span class="nc" id="L31">    private UUID customerId;</span>
+<span class="fc" id="L32">    private OrderStatus status;</span>
+<span class="fc" id="L33">    private List&lt;OrderItem&gt; items;</span>
+<span class="nc" id="L34">    private LocalDateTime createdAt;</span>
+<span class="nc" id="L35">    private LocalDateTime updatedAt;</span>
+
+    private static final int END_ID = 4;
+
+    public BigDecimal calculateTotalPrice() {
+<span class="fc bfc" id="L40" title="All 4 branches covered.">        if (items == null || items.isEmpty()) {</span>
+<span class="fc" id="L41">            return BigDecimal.ZERO;</span>
+        }
+
+<span class="fc" id="L44">        return items.stream()</span>
+<span class="fc" id="L45">                .map(item -&gt; item.getProduct().getUnitPrice()</span>
+<span class="fc" id="L46">                        .multiply(BigDecimal.valueOf(item.getQuantity())))</span>
+<span class="fc" id="L47">                .reduce(BigDecimal.ZERO, BigDecimal::add);</span>
+    }
+
+    public String generateOrderId() {
+<span class="fc" id="L51">        final String shortUUID = UUID.randomUUID().toString().substring(0, END_ID).toUpperCase();</span>
+<span class="fc" id="L52">        final DateTimeFormatter dtf = DateTimeFormatter.ofPattern(&quot;yyyyMMddHHmmss&quot;);</span>
+<span class="fc" id="L53">        final String datetime = LocalDateTime.now().format(dtf);</span>
+<span class="fc" id="L54">        final String shuffledDateTime = shuffleString(datetime);</span>
+<span class="fc" id="L55">        return &quot;ORD-&quot; + shortUUID + &quot;-&quot; + shuffledDateTime.substring(0, END_ID);</span>
+    }
+
+    private String shuffleString(String input) {
+<span class="fc" id="L59">        final List&lt;Character&gt; characters = new ArrayList&lt;&gt;();</span>
+<span class="fc bfc" id="L60" title="All 2 branches covered.">        for (char c : input.toCharArray()) {</span>
+<span class="fc" id="L61">            characters.add(c);</span>
+        }
+<span class="fc" id="L63">        Collections.shuffle(characters);</span>
+<span class="fc" id="L64">        final StringBuilder output = new StringBuilder(input.length());</span>
+<span class="fc bfc" id="L65" title="All 2 branches covered.">        for (char c : characters) {</span>
+<span class="fc" id="L66">            output.append(c);</span>
+<span class="fc" id="L67">        }</span>
+<span class="fc" id="L68">        return output.toString();</span>
+    }
+
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

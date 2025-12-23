@@ -4,14 +4,13 @@ import com.nexTime.order.infrastructure.controller.dto.request.OrderItemRequest;
 import com.nexTime.order.infrastructure.controller.dto.response.OrderItemResponse;
 import com.nexTime.order.infrastructure.controller.dto.response.ProductResponse;
 import com.nexTime.order.infrastructure.persistence.document.OrderItem;
-import java.math.BigDecimal;
-import java.util.UUID;
+import com.nexTime.order.infrastructure.persistence.document.Product;
 import javax.annotation.processing.Generated;
 import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2025-12-23T01:12:15-0300",
+    date = "2025-12-23T01:49:19-0300",
     comments = "version: 1.5.5.Final, compiler: javac, environment: Java 17.0.12 (Oracle Corporation)"
 )
 @Component
@@ -23,9 +22,11 @@ public class OrderItemMapperImpl implements OrderItemMapper {
             return null;
         }
 
-        OrderItem orderItem = new OrderItem();
+        OrderItem.OrderItemBuilder orderItem = OrderItem.builder();
 
-        return orderItem;
+        orderItem.quantity( request.quantity() );
+
+        return orderItem.build();
     }
 
     @Override
@@ -34,13 +35,28 @@ public class OrderItemMapperImpl implements OrderItemMapper {
             return null;
         }
 
-        UUID id = null;
-        ProductResponse product = null;
-        int quantity = 0;
-        BigDecimal priceAtPurchase = null;
+        OrderItemResponse.OrderItemResponseBuilder orderItemResponse = OrderItemResponse.builder();
 
-        OrderItemResponse orderItemResponse = new OrderItemResponse( id, product, quantity, priceAtPurchase );
+        orderItemResponse.id( orderItem.getId() );
+        orderItemResponse.product( productToProductResponse( orderItem.getProduct() ) );
+        if ( orderItem.getQuantity() != null ) {
+            orderItemResponse.quantity( orderItem.getQuantity() );
+        }
 
-        return orderItemResponse;
+        return orderItemResponse.build();
+    }
+
+    protected ProductResponse productToProductResponse(Product product) {
+        if ( product == null ) {
+            return null;
+        }
+
+        ProductResponse.ProductResponseBuilder productResponse = ProductResponse.builder();
+
+        productResponse.id( product.getId() );
+        productResponse.name( product.getName() );
+        productResponse.unitPrice( product.getUnitPrice() );
+
+        return productResponse.build();
     }
 }

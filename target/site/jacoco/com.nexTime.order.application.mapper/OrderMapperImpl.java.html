@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="pt"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>OrderMapperImpl.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">order</a> &gt; <a href="index.source.html" class="el_package">com.nexTime.order.application.mapper</a> &gt; <span class="el_source">OrderMapperImpl.java</span></div><h1>OrderMapperImpl.java</h1><pre class="source lang-java linenums">package com.nexTime.order.application.mapper;
+
+<span class="nc" id="L3">import com.nexTime.order.infrastructure.controller.dto.request.OrderItemRequest;</span>
+import com.nexTime.order.infrastructure.controller.dto.request.OrderRequest;
+import com.nexTime.order.infrastructure.controller.dto.response.OrderItemResponse;
+import com.nexTime.order.infrastructure.controller.dto.response.OrderResponse;
+import com.nexTime.order.infrastructure.controller.dto.response.ProductResponse;
+import com.nexTime.order.infrastructure.persistence.document.Order;
+import com.nexTime.order.infrastructure.persistence.document.OrderItem;
+import com.nexTime.order.infrastructure.persistence.document.Product;
+import java.util.ArrayList;
+import java.util.List;
+import javax.annotation.processing.Generated;
+import org.springframework.stereotype.Component;
+
+@Generated(
+    value = &quot;org.mapstruct.ap.MappingProcessor&quot;,
+    date = &quot;2025-12-23T01:49:19-0300&quot;,
+    comments = &quot;version: 1.5.5.Final, compiler: javac, environment: Java 17.0.12 (Oracle Corporation)&quot;
+)
+@Component
+public class OrderMapperImpl implements OrderMapper {
+
+    @Override
+<span class="nc" id="L25">    public Order toDomain(OrderRequest request) {</span>
+        if ( request == null ) {
+            return null;
+        }
+
+        Order.OrderBuilder order = Order.builder();
+
+        order.customerId( request.customerId() );
+        order.items( orderItemRequestListToOrderItemList( request.items() ) );
+
+        return order.build();
+    }
+
+    @Override
+<span class="nc" id="L39">    public OrderResponse toResponse(Order order) {</span>
+        if ( order == null ) {
+            return null;
+        }
+
+        OrderResponse.OrderResponseBuilder orderResponse = OrderResponse.builder();
+
+        orderResponse.id( order.getId() );
+        orderResponse.identifier( order.getIdentifier() );
+        orderResponse.totalPrice( order.getTotalPrice() );
+        orderResponse.status( order.getStatus() );
+        orderResponse.createdAt( order.getCreatedAt() );
+        orderResponse.items( orderItemListToOrderItemResponseList( order.getItems() ) );
+
+        return orderResponse.build();
+    }
+
+<span class="nc" id="L56">    protected OrderItem orderItemRequestToOrderItem(OrderItemRequest orderItemRequest) {</span>
+        if ( orderItemRequest == null ) {
+            return null;
+        }
+
+        OrderItem.OrderItemBuilder orderItem = OrderItem.builder();
+
+        orderItem.quantity( orderItemRequest.quantity() );
+
+        return orderItem.build();
+    }
+
+<span class="nc" id="L68">    protected List&lt;OrderItem&gt; orderItemRequestListToOrderItemList(List&lt;OrderItemRequest&gt; list) {</span>
+        if ( list == null ) {
+            return null;
+        }
+
+        List&lt;OrderItem&gt; list1 = new ArrayList&lt;OrderItem&gt;( list.size() );
+        for ( OrderItemRequest orderItemRequest : list ) {
+            list1.add( orderItemRequestToOrderItem( orderItemRequest ) );
+        }
+
+        return list1;
+    }
+
+<span class="nc" id="L81">    protected ProductResponse productToProductResponse(Product product) {</span>
+        if ( product == null ) {
+            return null;
+        }
+
+        ProductResponse.ProductResponseBuilder productResponse = ProductResponse.builder();
+
+        productResponse.id( product.getId() );
+        productResponse.name( product.getName() );
+        productResponse.unitPrice( product.getUnitPrice() );
+
+        return productResponse.build();
+    }
+
+<span class="nc" id="L95">    protected OrderItemResponse orderItemToOrderItemResponse(OrderItem orderItem) {</span>
+        if ( orderItem == null ) {
+            return null;
+        }
+
+        OrderItemResponse.OrderItemResponseBuilder orderItemResponse = OrderItemResponse.builder();
+
+        orderItemResponse.id( orderItem.getId() );
+        orderItemResponse.product( productToProductResponse( orderItem.getProduct() ) );
+        if ( orderItem.getQuantity() != null ) {
+            orderItemResponse.quantity( orderItem.getQuantity() );
+        }
+
+        return orderItemResponse.build();
+    }
+
+<span class="nc" id="L111">    protected List&lt;OrderItemResponse&gt; orderItemListToOrderItemResponseList(List&lt;OrderItem&gt; list) {</span>
+        if ( list == null ) {
+            return null;
+        }
+
+        List&lt;OrderItemResponse&gt; list1 = new ArrayList&lt;OrderItemResponse&gt;( list.size() );
+        for ( OrderItem orderItem : list ) {
+            list1.add( orderItemToOrderItemResponse( orderItem ) );
+        }
+
+        return list1;
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>
