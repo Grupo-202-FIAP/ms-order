@@ -97,21 +97,21 @@
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
-        
+
         <!-- AssertJ para asserções mais legíveis -->
         <dependency>
             <groupId>org.assertj</groupId>
             <artifactId>assertj-core</artifactId>
             <scope>test</scope>
         </dependency>
-        
+
         <!-- Testcontainers para MongoDB (opcional, para testes de integração) -->
         <dependency>
             <groupId>org.testcontainers</groupId>
             <artifactId>mongodb</artifactId>
             <scope>test</scope>
         </dependency>
-        
+
         <dependency>
             <groupId>org.testcontainers</groupId>
             <artifactId>junit-jupiter</artifactId>
@@ -190,7 +190,7 @@
                     </annotationProcessorPaths>
                 </configuration>
             </plugin>
-            
+
             <!-- Plugin para cobertura de código (JaCoCo) -->
             <plugin>
                 <groupId>org.jacoco</groupId>
@@ -231,7 +231,26 @@
                     </execution>
                 </executions>
             </plugin>
-            
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-checkstyle-plugin</artifactId>
+                <version>3.3.1</version>
+                <configuration>
+                    <configLocation>checkstyle/checkstyle.xml</configLocation>
+                    <encoding>UTF-8</encoding>
+                    <consoleOutput>true</consoleOutput>
+                    <failsOnError>true</failsOnError>
+                </configuration>
+                <executions>
+                    <execution>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>check</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
             <!-- Plugin para Mutation Testing (PIT) -->
             <plugin>
                 <groupId>org.pitest</groupId>
@@ -252,7 +271,7 @@
                         <mutator>ALL</mutator>
                     </mutators>
                     <excludedClasses>
-                        <param>com.nexTime.order.OrderApplication</param>
+                        <param>com.nextime.order.OrderApplication</param>
                         <param>com.nexTime.order.infrastructure.controller.dto.*</param>
                         <param>com.nexTime.order.infrastructure.persistence.document.*</param>
                         <param>com.nexTime.order.domain.enums.*</param>
