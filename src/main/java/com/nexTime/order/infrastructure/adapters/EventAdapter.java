@@ -5,11 +5,12 @@ import com.nexTime.order.application.gateways.LoggerPort;
 import com.nexTime.order.infrastructure.persistence.document.Event;
 import com.nexTime.order.infrastructure.persistence.repository.IEventRepository;
 import lombok.AllArgsConstructor;
+import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 
-@Service
+@Repository
 @AllArgsConstructor
 public class EventAdapter implements EventPort {
 

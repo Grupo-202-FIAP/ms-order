@@ -14,7 +14,7 @@ public record OrderResponse(
         String identifier,
         BigDecimal totalPrice,
         OrderStatus status,
-        LocalDateTime orderDateTime,
+        LocalDateTime createdAt,
         List<OrderItemResponse> items
 ) {
 }

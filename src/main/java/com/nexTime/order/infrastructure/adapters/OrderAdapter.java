@@ -10,12 +10,12 @@ import com.nexTime.order.infrastructure.persistence.repository.IOrderRepository;
 import com.nexTime.order.utils.JsonConverter;
 import lombok.AllArgsConstructor;
 import lombok.val;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Repository;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-@Service
+@Repository
 @AllArgsConstructor
 public class OrderAdapter implements OrderPort {
 

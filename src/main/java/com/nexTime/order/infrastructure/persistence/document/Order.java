@@ -25,10 +25,10 @@ public class Order {
     @Id
     private UUID id;
     private UUID transactionId;
-    @Builder.Default
-    private String identifier = generateOrderId();
+    private String identifier;
     private BigDecimal totalPrice;
     private Integer totalItems;
+    private UUID customerId;
     private OrderStatus status;
     private List<OrderItem> items;
     private LocalDateTime createdAt;
@@ -47,11 +47,7 @@ public class Order {
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 
-    public void updateTotalPrice() {
-        this.totalPrice = calculateTotalPrice();
-    }
-
-    public static String generateOrderId() {
+    public String generateOrderId() {
         final String shortUUID = UUID.randomUUID().toString().substring(0, END_ID).toUpperCase();
         final DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyyMMddHHmmss");
         final String datetime = LocalDateTime.now().format(dtf);
@@ -59,7 +55,7 @@ public class Order {
         return "ORD-" + shortUUID + "-" + shuffledDateTime.substring(0, END_ID);
     }
 
-    private static String shuffleString(String input) {
+    private String shuffleString(String input) {
         final List<Character> characters = new ArrayList<>();
         for (char c : input.toCharArray()) {
             characters.add(c);
