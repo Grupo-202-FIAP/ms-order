@@ -12,7 +12,7 @@ public class ExceptionGlobalHandler {
 
     @ExceptionHandler(ValidationException.class)
     public ResponseEntity<?> handleException(ValidationException ex) {
-        var details = new ExceptionDetail(HttpStatus.BAD_REQUEST.value(), ex.getMessage());
+        final var details = new ExceptionDetail(HttpStatus.BAD_REQUEST.value(), ex.getMessage());
         return new ResponseEntity<>(details, HttpStatus.BAD_REQUEST);
     }
 }

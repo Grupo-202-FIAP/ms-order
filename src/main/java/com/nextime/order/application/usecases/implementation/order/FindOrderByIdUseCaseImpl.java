@@ -6,7 +6,6 @@ import com.nextime.order.infrastructure.persistence.document.Order;
 import com.nextime.order.infrastructure.persistence.repository.IOrderRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
-
 import java.util.UUID;
 
 @Service

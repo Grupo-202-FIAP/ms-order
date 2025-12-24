@@ -7,7 +7,6 @@ import com.nextime.order.infrastructure.persistence.document.Order;
 import com.nextime.order.infrastructure.persistence.repository.IOrderRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 
 @Service
@@ -16,7 +15,7 @@ public class ListOrdersByStatusUseCaseImpl implements ListOrdersByStatusUseCase 
     private final IOrderRepository orderRepositoryPort;
 
     public List<Order> execute(OrderStatus status) {
-        List<Order> orders = orderRepositoryPort.findOrdersByStatus(status);
+        final List<Order> orders = orderRepositoryPort.findOrdersByStatus(status);
 
         if (orders.isEmpty()) {
             throw new OrderNotFoundStatusException(status);

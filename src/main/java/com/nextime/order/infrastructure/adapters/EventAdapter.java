@@ -6,7 +6,6 @@ import com.nextime.order.infrastructure.persistence.document.Event;
 import com.nextime.order.infrastructure.persistence.repository.IEventRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Repository;
-
 import java.time.LocalDateTime;
 
 @Repository

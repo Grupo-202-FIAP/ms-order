@@ -9,9 +9,7 @@ import com.nextime.order.infrastructure.persistence.document.Order;
 import com.nextime.order.infrastructure.persistence.repository.IOrderRepository;
 import com.nextime.order.utils.JsonConverter;
 import lombok.AllArgsConstructor;
-import lombok.val;
 import org.springframework.stereotype.Repository;
-
 import java.time.LocalDateTime;
 import java.util.UUID;
 
@@ -28,15 +26,15 @@ public class OrderAdapter implements OrderPort {
 
     public Order createOrder(OrderRequest orderRequest) {
         logger.info("[OrderAdapter.createOrder] Iniciando criação de pedido");
-        var order = Order.builder()
+        final var order = Order.builder()
                 .items(orderRequest.getOrderItems())
                 .createdAt(LocalDateTime.now())
                 .transactionId(UUID.randomUUID())
                 .build();
         try {
-            val savedOrder = orderRepository.save(order);
+            final var savedOrder = orderRepository.save(order);
             logger.info("[OrderAdapter.createOrder] Pedido criado com sucesso. ID: {}", savedOrder.getId());
-            Event event = createPayload(savedOrder);
+            final Event event = createPayload(savedOrder);
             sagaProducer.sendMessage(jsonConverter.toJson(event));
             return savedOrder;
         } catch (Exception e) {
@@ -46,7 +44,7 @@ public class OrderAdapter implements OrderPort {
     }
 
     private Event createPayload(Order order) {
-        var event = Event.builder()
+        final var event = Event.builder()
                 .orderId(order.getId())
                 .transactionId(order.getTransactionId())
                 .payload(order)

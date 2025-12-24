@@ -2,7 +2,6 @@ package com.nextime.order.infrastructure.messaging.producer;
 
 import com.nextime.order.application.gateways.LoggerPort;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import software.amazon.awssdk.services.sqs.SqsAsyncClient;

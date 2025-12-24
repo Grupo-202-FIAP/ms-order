@@ -6,7 +6,6 @@ import com.nextime.order.infrastructure.persistence.document.Order;
 import com.nextime.order.infrastructure.persistence.repository.IOrderRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 
 @Service
@@ -17,7 +16,7 @@ public class ListOrdersUseCaseImpl implements ListOrdersUseCase {
 
     @Override
     public List<Order> execute() {
-        List<Order> orders = this.orderRepositoryPort.findAll();
+        final List<Order> orders = this.orderRepositoryPort.findAll();
 
         if (orders.isEmpty()) {
             throw new OrderEmptyException();
