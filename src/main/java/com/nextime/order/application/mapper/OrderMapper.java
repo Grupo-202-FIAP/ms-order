@@ -5,7 +5,7 @@ import com.nextime.order.infrastructure.controller.dto.response.OrderResponse;
 import com.nextime.order.infrastructure.persistence.document.Order;
 import org.mapstruct.Mapper;
 
-@Mapper(componentModel = "spring", uses = OrderMapper.class)
+@Mapper(componentModel = "spring")
 public interface OrderMapper {
 
     Order toDomain(OrderRequest request);
