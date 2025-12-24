@@ -21,9 +21,5 @@ spring:
       order-queue: order-queue
       order-callback-queue: order-callback-queue
 
-  devtools:
-    restart:
-      exclude: "**/generated-sources/**,**/*MapperImpl.class"
-
 server:
   port: 8079
