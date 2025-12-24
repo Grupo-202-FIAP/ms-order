@@ -67,7 +67,7 @@ jobs:
         run: docker compose -f docker-compose.yml config
 
       - name: Build da imagem com Docker Compose
-        run: docker compose -f docker-compose.yml build app
+        run: docker compose -f docker-compose.yml
 
   pr-dev:
     runs-on: ubuntu-latest
