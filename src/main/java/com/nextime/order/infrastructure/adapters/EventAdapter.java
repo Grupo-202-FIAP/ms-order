@@ -4,10 +4,9 @@ import com.nextime.order.application.gateways.EventPort;
 import com.nextime.order.application.gateways.LoggerPort;
 import com.nextime.order.infrastructure.persistence.document.Event;
 import com.nextime.order.infrastructure.persistence.repository.IEventRepository;
+import java.time.LocalDateTime;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Repository;
-
-import java.time.LocalDateTime;
 
 @Repository
 @AllArgsConstructor

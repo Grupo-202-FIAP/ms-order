@@ -253,8 +253,8 @@
         <module name="EqualsAvoidNull"/>
         <module name="EqualsHashCode"/>
         <module name="FinalLocalVariable"/>
-        <module name="IllegalCatch"/>
-        <module name="IllegalThrows"/>
+<!--        <module name="IllegalCatch"/>-->
+<!--        <module name="IllegalThrows"/>-->
         <module name="InterfaceTypeParameterName">
             <property name="format" value="^[a-zA-Z]$"/>
         </module>

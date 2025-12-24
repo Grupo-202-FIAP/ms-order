@@ -1,11 +1,10 @@
 package com.nextime.order.domain;
 
 import com.nextime.order.infrastructure.persistence.document.OrderItem;
+import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.util.List;
 
 @Data
 @NoArgsConstructor

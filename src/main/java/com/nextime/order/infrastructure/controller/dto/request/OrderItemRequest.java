@@ -1,8 +1,7 @@
 package com.nextime.order.infrastructure.controller.dto.request;
 
-import lombok.Builder;
-
 import java.math.BigDecimal;
+import lombok.Builder;
 
 @Builder
 public record OrderItemRequest(

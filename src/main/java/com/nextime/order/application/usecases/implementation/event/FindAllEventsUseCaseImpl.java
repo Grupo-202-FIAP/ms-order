@@ -4,10 +4,9 @@ import com.nextime.order.application.usecases.interfaces.event.FindAllEventsUseC
 import com.nextime.order.domain.exception.event.EventNotFoundException;
 import com.nextime.order.infrastructure.persistence.document.Event;
 import com.nextime.order.infrastructure.persistence.repository.IEventRepository;
+import java.util.List;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 @AllArgsConstructor
@@ -17,7 +16,7 @@ public class FindAllEventsUseCaseImpl implements FindAllEventsUseCase {
 
     @Override
     public List<Event> execute() {
-        List<Event> events = eventRepository.findAllByOrderByCreatedAtDesc();
+        final List<Event> events = eventRepository.findAllByOrderByCreatedAtDesc();
 
         if (events.isEmpty()) {
             throw new EventNotFoundException();

@@ -1,18 +1,16 @@
 package com.nextime.order.application.usecases.implementation.event;
 
+import static org.springframework.util.ObjectUtils.isEmpty;
+
 import com.nextime.order.application.usecases.interfaces.event.FindEventByFiltersUseCase;
 import com.nextime.order.domain.EventFilters;
 import com.nextime.order.domain.exception.event.EventNotFoundOrderIdException;
 import com.nextime.order.domain.exception.event.EventNotFoundTransactionIdException;
 import com.nextime.order.infrastructure.persistence.document.Event;
 import com.nextime.order.infrastructure.persistence.repository.IEventRepository;
+import java.util.UUID;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
-
-
-import java.util.UUID;
-
-import static org.springframework.util.ObjectUtils.isEmpty;
 
 @Service
 @AllArgsConstructor
@@ -43,7 +41,8 @@ public class FindEventByFiltersUseCaseImpl implements FindEventByFiltersUseCase 
 
     private void validateEmptyFilters(EventFilters filters) {
         if (isEmpty(filters.getOrderId()) && isEmpty(filters.getTransactionId())) {
-            throw new IllegalArgumentException("[Exception] [Event] Filtros inválidos: é necessário fornecer um orderId ou transactionId para buscar o evento.");
+            throw new IllegalArgumentException(
+                    "[Exception] [Event] Filtros inválidos: é necessário fornecer um orderId ou transactionId para buscar o evento.");
         }
     }
 

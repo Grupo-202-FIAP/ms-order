@@ -19,7 +19,7 @@ public class EventConsumer {
     public void consumeMessage(String payload) {
         try {
             logger.info("[consumeMessage] Consumindo mensagem da fila de callback: {}", payload);
-            var event = jsonConverter.toEvent(payload);
+            final var event = jsonConverter.toEvent(payload);
             eventAdapter.notifyEvent(event);
             logger.info("[consumeMessage] Mensagem consumida da fila de callback: {}", event);
         } catch (Exception e) {
