@@ -24,22 +24,18 @@
         <discardingThreshold>0</discardingThreshold>
     </appender>
 
-    <root level="INFO">
-        <appender-ref ref="CONSOLE_PLAIN"/>
-    </root>
-
     <springProfile name="dev">
         <root level="DEBUG">
             <appender-ref ref="CONSOLE_PLAIN"/>
         </root>
-        <logger name="com.nexTime" level="DEBUG"/>
+        <logger name="com.postech" level="DEBUG"/>
     </springProfile>
 
     <springProfile name="prod">
         <root level="INFO">
             <appender-ref ref="ASYNC_JSON"/>
         </root>
-        <logger name="com.nexTime" level="INFO"/>
+        <logger name="com.postech" level="INFO"/>
     </springProfile>
 
 </configuration>
