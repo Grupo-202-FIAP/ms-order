@@ -6,7 +6,7 @@ import com.nextime.order.infrastructure.controller.dto.response.ProductResponse;
 import com.nextime.order.infrastructure.persistence.document.Product;
 import org.mapstruct.Mapper;
 
-@Mapper(componentModel = "spring", uses = ProductMapper.class)
+@Mapper(componentModel = "spring")
 public interface ProductMapper {
     Product toDomain(ProductRequest request);
 

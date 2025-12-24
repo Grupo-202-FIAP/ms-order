@@ -14,7 +14,7 @@ public class SagaProducer {
 
     private final SqsAsyncClient sqsAsyncClient;
 
-    @Value("${spring.cloud.aws.sqs.queue.order-queue")
+    @Value("spring.cloud.aws.sqs.queue.order-queue")
     private String orderQueue;
 
     public void sendMessage(String payload) {
