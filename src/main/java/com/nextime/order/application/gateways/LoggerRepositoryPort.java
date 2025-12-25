@@ -1,6 +1,6 @@
 package com.nextime.order.application.gateways;
 
-public interface LoggerPort {
+public interface LoggerRepositoryPort {
     void info(String msg, Object... args);
 
     void debug(String msg, Object... args);
