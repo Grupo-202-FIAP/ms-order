@@ -1,6 +1,6 @@
 package com.nextime.order.infrastructure.controller;
 
-import com.nextime.order.application.gateways.LoggerPort;
+import com.nextime.order.application.gateways.LoggerRepositoryPort;
 import com.nextime.order.application.usecases.interfaces.event.FindAllEventsUseCase;
 import com.nextime.order.application.usecases.interfaces.event.FindEventByFiltersUseCase;
 import com.nextime.order.domain.EventFilters;
@@ -19,21 +19,21 @@ public class EventController {
 
     private final FindEventByFiltersUseCase findEventByFiltersUseCase;
     private final FindAllEventsUseCase findAllEventsUseCase;
-    private final LoggerPort logger;
+    private final LoggerRepositoryPort logger;
 
     @GetMapping("/filter")
     public ResponseEntity<Event> findByFilters(EventFilters filter) {
-        logger.info("[Event] Iniciando Busca de evento por filtros");
+        logger.info("[EventController.findByFilters] Iniciando Busca de evento por filtros");
         final Event event = this.findEventByFiltersUseCase.execute(filter);
-        logger.info("[Event] Evento encontrado: id={}", event.getId());
+        logger.info("[EventController.findByFilters] Evento encontrado: id={}", event.getId());
         return ResponseEntity.ok(event);
     }
 
     @GetMapping("/all")
     public ResponseEntity<List<Event>> findAll() {
-        logger.info("[Event] Iniciando Busca de todos os eventos");
+        logger.info("[EventController.findAll] Iniciando Busca de todos os eventos");
         final List<Event> events = this.findAllEventsUseCase.execute();
-        logger.info("[Event] {} eventos encontrados", events.size());
+        logger.info("[EventController.findAll] {} eventos encontrados", events.size());
         return ResponseEntity.ok(events);
     }
 }

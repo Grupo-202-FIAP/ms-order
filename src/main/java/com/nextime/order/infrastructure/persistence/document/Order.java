@@ -1,6 +1,7 @@
 package com.nextime.order.infrastructure.persistence.document;
 
 import com.nextime.order.domain.enums.OrderStatus;
+import com.nextime.order.domain.enums.PaymentStatus;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -31,6 +32,7 @@ public class Order {
     private Integer totalItems;
     private UUID customerId;
     private OrderStatus status;
+    private PaymentStatus paymentStatus;
     private List<OrderItem> items;
     @CreatedDate
     private LocalDateTime createdAt;

@@ -1,7 +1,8 @@
 package com.nextime.order.utils;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.nextime.order.application.gateways.LoggerPort;
+import com.nextime.order.application.exception.JsonConversionException;
+import com.nextime.order.application.gateways.LoggerRepositoryPort;
 import com.nextime.order.infrastructure.persistence.document.Event;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -10,14 +11,17 @@ import org.springframework.stereotype.Component;
 @AllArgsConstructor
 public class JsonConverter {
     private final ObjectMapper objectMapper;
-    private final LoggerPort logger;
+    private final LoggerRepositoryPort logger;
 
     public String toJson(Object object) {
         try {
             return objectMapper.writeValueAsString(object);
         } catch (Exception e) {
-            logger.error("[toJson] Falha para converter objeto para JSON: {}", e);
-            throw new RuntimeException("[toJson] Falha para converter objeto para JSON: {}", e);
+            logger.error("[JsonConverter.toJson] Falha para converter objeto para JSON: {}", e);
+            throw new JsonConversionException(
+                    "Erro ao converter objeto para JSON",
+                    e
+            );
         }
     }
 
@@ -25,8 +29,11 @@ public class JsonConverter {
         try {
             return objectMapper.readValue(json, Event.class);
         } catch (Exception e) {
-            logger.error("[toEvent] Falha para converter JSON para Event: {}", e);
-            throw new RuntimeException("[toEvent] Falha para converter JSON para Event: {}", e);
+            logger.error("[JsonConverter.toEvent] Falha para converter JSON para Event: {}", e);
+            throw new JsonConversionException(
+                    "Erro ao converter JSON para Event",
+                    e
+            );
         }
     }
 

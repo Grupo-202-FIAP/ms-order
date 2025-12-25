@@ -1,14 +1,14 @@
 package com.nextime.order.infrastructure.adapters;
 
-import com.nextime.order.application.gateways.LoggerPort;
+import com.nextime.order.application.gateways.LoggerRepositoryPort;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 @Component
-public class LoggerAdapter implements LoggerPort {
+public class LoggerRepositoryAdapter implements LoggerRepositoryPort {
 
-    private final Logger logger = LoggerFactory.getLogger(LoggerAdapter.class);
+    private final Logger logger = LoggerFactory.getLogger(LoggerRepositoryAdapter.class);
 
     @Override
     public void info(String msg, Object... args) {
