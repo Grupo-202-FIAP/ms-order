@@ -23,7 +23,7 @@ public class CreateOrderUseCaseImpl implements CreateOrderUseCase {
             throw new OrderListEmptyException();
         }
 
-        order.setPaymentStatus(PaymentStatus.UNKNOWN);
+        order.setPaymentStatus(PaymentStatus.PENDING);
 
         final Order savedOrder = orderRepository.save(order);
 
