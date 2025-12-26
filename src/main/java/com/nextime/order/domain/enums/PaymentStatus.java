@@ -2,7 +2,7 @@ package com.nextime.order.domain.enums;
 
 public enum PaymentStatus {
     PROCESSED("PROCESSED"),
-    UNKNOWN("UNKNOWN"),
+    PENDING("PENDING"),
     EXPIRED("EXPIRED");
 
     private final String status;
