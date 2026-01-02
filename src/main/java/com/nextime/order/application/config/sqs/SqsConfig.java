@@ -1,39 +1,42 @@
 package com.nextime.order.application.config.sqs;
 
+import java.net.URI;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 import software.amazon.awssdk.auth.credentials.AwsBasicCredentials;
 import software.amazon.awssdk.auth.credentials.StaticCredentialsProvider;
 import software.amazon.awssdk.regions.Region;
 import software.amazon.awssdk.services.sqs.SqsAsyncClient;
-import java.net.URI;
 
 @Configuration
 public class SqsConfig {
 
-    @Value("${spring.cloud.aws.sqs.endpoint}")
-    private String sqsEndpoint;
-
-    @Value("${spring.cloud.aws.region.static}")
+    @Value("${spring.cloud.aws.region.static:us-east-1}")
     private String region;
 
-    @Value("${spring.cloud.aws.credentials.access-key}")
-    private String accessKey;
-
-    @Value("${spring.cloud.aws.credentials.secret-key}")
-    private String secretKey;
-
     @Bean
-    public SqsAsyncClient sqsAsyncClient() {
+    @Profile("local")
+    public SqsAsyncClient sqsAsyncClientLocal(
+            @Value("${spring.cloud.aws.sqs.endpoint}") String endpoint
+    ) {
         return SqsAsyncClient.builder()
-                .endpointOverride(URI.create(sqsEndpoint))
                 .region(Region.of(region))
+                .endpointOverride(URI.create(endpoint))
                 .credentialsProvider(
                         StaticCredentialsProvider.create(
-                                AwsBasicCredentials.create(accessKey, secretKey)
+                                AwsBasicCredentials.create("test", "test")
                         )
                 )
+                .build();
+    }
+
+    @Bean
+    @Profile("!local")
+    public SqsAsyncClient sqsAsyncClientEks() {
+        return SqsAsyncClient.builder()
+                .region(Region.of(region))
                 .build();
     }
 }
