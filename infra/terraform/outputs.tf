@@ -18,3 +18,6 @@ output "ssm_policy_arn" {
   value       = aws_iam_policy.ms_order_ssm.arn
 }
 
+output "ecr_repository_uri" {
+  value = aws_ecr_repository.ms_order.repository_url
+}
