@@ -13,6 +13,8 @@ env:
   AWS_REGION: us-east-1
   AWS_ACCOUNT_ID: ${{ secrets.AWS_ACCOUNT_ID }}
   CLUSTER_NAME: nextime-cluster
+  ECR_REPOSITORY: ms-order
+  ECR_URI: ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.us-east-1.amazonaws.com/ms-order
 
 jobs:
   deploy-prod:
@@ -41,18 +43,11 @@ jobs:
         working-directory: infra/terraform
         run: terraform apply -auto-approve
 
-      - name: Obter ECR URI do Terraform
-        id: tf
-        working-directory: infra/terraform
-        run: |
-          echo "ecr_uri=$(terraform output -raw ecr_repository_uri)" >> "$GITHUB_OUTPUT"
-
       - name: Login no Amazon ECR
         uses: aws-actions/amazon-ecr-login@v2
 
       - name: Build e Push da imagem
         env:
-          ECR_URI: ${{ steps.tf.outputs.ecr_uri }}
           IMAGE_TAG: ${{ github.sha }}
         run: |
           docker build -t $ECR_URI:$IMAGE_TAG .
@@ -67,8 +62,6 @@ jobs:
             --name ${{ env.CLUSTER_NAME }}
 
       - name: Atualizar Deployment com nova imagem
-        env:
-          ECR_URI: ${{ steps.tf.outputs.ecr_uri }}
         run: |
           kubectl set image deployment/ms-order-deployment \
             ms-order=$ECR_URI:${{ github.sha }}
