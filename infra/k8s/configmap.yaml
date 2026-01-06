@@ -6,6 +6,6 @@ metadata:
 data:
   SPRING_PROFILES_ACTIVE: dev
   AWS_REGION: us-east-1
-  SQS_ORDER_QUEUE: https://sqs.us-east-1.amazonaws.com/<ACCOUNT_ID>/order-queue #Todo: Ajustar id
-  SQS_ORDER_CALLBACK_QUEUE: https://sqs.us-east-1.amazonaws.com/<ACCOUNT_ID>/order-callback-queue #Todo: Ajustar id
+  SQS_ORDER_QUEUE: https://sqs.us-east-1.amazonaws.com/056075870573/order-queue
+  SQS_ORDER_CALLBACK_QUEUE: https://sqs.us-east-1.amazonaws.com/056075870573/order-callback-queue
 
