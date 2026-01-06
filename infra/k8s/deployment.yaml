@@ -1,0 +1,60 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ms-order
+  namespace: default
+  labels:
+    app: ms-order
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: ms-order
+  template:
+    metadata:
+      labels:
+        app: ms-order
+        tags.datadoghq.com/service: ms-order
+        tags.datadoghq.com/env: dev
+        tags.datadoghq.com/version: "1.0.0"
+    spec:
+      serviceAccountName: ms-order-sa
+      containers:
+        - name: ms-order
+          image: 056075870573.dkr.ecr.us-east-1.amazonaws.com/ms-order:latest
+          ports:
+            - containerPort: 8079
+          envFrom:
+            - configMapRef:
+                name: ms-order-config
+            - secretRef:
+                name: ms-order-secrets
+          env:
+            - name: DD_SERVICE
+              value: ms-order
+            - name: DD_ENV
+              value: dev
+            - name: DD_VERSION
+              value: "1.0.0"
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "256Mi"
+            limits:
+              memory: "512Mi"
+          livenessProbe:
+            httpGet:
+              path: /actuator/health/liveness
+              port: 8079
+            initialDelaySeconds: 60
+            periodSeconds: 10
+            timeoutSeconds: 5
+            failureThreshold: 3
+          readinessProbe:
+            httpGet:
+              path: /actuator/health/readiness
+              port: 8079
+            initialDelaySeconds: 30
+            periodSeconds: 10
+            timeoutSeconds: 5
+            failureThreshold: 3
