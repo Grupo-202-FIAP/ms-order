@@ -11,8 +11,8 @@ resource "aws_iam_policy" "ms_order_sqs" {
         "sqs:GetQueueAttributes"
       ]
       Resource = [
-        data.aws_sqs_queue.order_queue.arn,
-        data.aws_sqs_queue.order_callback_queue.arn
+        data.terraform_remote_state.sqs.outputs.sqs_queue_arns["order-callback-queue"],
+        data.terraform_remote_state.sqs.outputs.sqs_queue_arns["order-queue"]
       ]
     }]
   })

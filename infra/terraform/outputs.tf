@@ -18,23 +18,3 @@ output "ssm_policy_arn" {
   value       = aws_iam_policy.ms_order_ssm.arn
 }
 
-output "order_queue_arn" {
-  description = "ARN da fila SQS de order"
-  value       = data.aws_sqs_queue.order_queue.arn
-}
-
-output "order_queue_url" {
-  description = "URL da fila SQS de order"
-  value       = data.aws_sqs_queue.order_queue.url
-}
-
-output "order_callback_queue_arn" {
-  description = "ARN da fila SQS de callback"
-  value       = data.aws_sqs_queue.order_callback_queue.arn
-}
-
-output "order_callback_queue_url" {
-  description = "URL da fila SQS de callback"
-  value       = data.aws_sqs_queue.order_callback_queue.url
-}
-

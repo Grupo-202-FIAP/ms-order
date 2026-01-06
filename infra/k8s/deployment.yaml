@@ -21,7 +21,7 @@ spec:
       serviceAccountName: ms-order-sa
       containers:
         - name: ms-order
-          image: <ACCOUNT_ID>.dkr.ecr.us-east-1.amazonaws.com/ms-order:latest #Todo: Ajustar id
+          image: 056075870573.dkr.ecr.us-east-1.amazonaws.com/ms-order:latest
           ports:
             - containerPort: 8079
           envFrom:

@@ -9,7 +9,7 @@ resource "aws_iam_policy" "ms_order_ssm" {
         "ssm:GetParameter",
         "ssm:GetParameters"
       ]
-      Resource = "arn:aws:ssm:${data.aws_region.current.name}:<ACCOUNT_ID>:parameter/ms-order/*" //ToDo: ajustar
+      Resource = "arn:aws:ssm:${var.aws_region}:056075870573:parameter/*"
     }]
   })
 }
