@@ -61,13 +61,17 @@ jobs:
             --region ${{ env.AWS_REGION }} \
             --name ${{ env.CLUSTER_NAME }}
 
-      - name: Atualizar Deployment com nova imagem
-        run: |
-          kubectl set image deployment/ms-order-deployment \
-            ms-order=$ECR_URI:${{ github.sha }}
-
-          kubectl rollout status deployment/ms-order-deployment
-
-      - name: Aplicar todos os manifests do Kubernetes
+      - name: Aplicar manifests do Kubernetes
         working-directory: infra/k8s
         run: kubectl apply -f .
+
+      - name: Atualizar Deployment com nova imagem (se existir)
+        run: |
+          if kubectl get deployment ms-order-deployment >/dev/null 2>&1; then
+            kubectl set image deployment/ms-order-deployment \
+              ms-order=$ECR_URI:${{ github.sha }}
+
+            kubectl rollout status deployment/ms-order-deployment
+          else
+            echo "Deployment ms-order-deployment ainda não existe (primeiro deploy)."
+          fi
