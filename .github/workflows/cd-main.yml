@@ -28,20 +28,6 @@ jobs:
           role-to-assume: arn:aws:iam::${{ env.AWS_ACCOUNT_ID }}:role/github-action-role
           aws-region: ${{ env.AWS_REGION }}
 
-      - name: Login no Amazon ECR
-        uses: aws-actions/amazon-ecr-login@v2
-
-      - name: Build e Push da imagem
-        env:
-          ECR_REPOSITORY: ms-order
-          IMAGE_TAG: ${{ github.sha }}
-        run: |
-          ECR_URI="${{ env.AWS_ACCOUNT_ID }}.dkr.ecr.${{ env.AWS_REGION }}.amazonaws.com/$ECR_REPOSITORY"
-          docker build -t $ECR_URI:$IMAGE_TAG .
-          docker tag $ECR_URI:$IMAGE_TAG $ECR_URI:latest
-          docker push $ECR_URI:$IMAGE_TAG
-          docker push $ECR_URI:latest
-
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v2
         with:
@@ -55,17 +41,32 @@ jobs:
         working-directory: infra/terraform
         run: terraform apply -auto-approve
 
+      - name: Obter ECR URI do Terraform
+        id: ecr
+        working-directory: infra/terraform
+        run: echo "ECR_URI=$(terraform output -raw ecr_repository_uri)" >> $GITHUB_ENV
+
+      - name: Login no Amazon ECR
+        uses: aws-actions/amazon-ecr-login@v2
+
+      - name: Build e Push da imagem
+        env:
+          IMAGE_TAG: ${{ github.sha }}
+        run: |
+          docker build -t $ECR_URI:$IMAGE_TAG .
+          docker tag $ECR_URI:$IMAGE_TAG $ECR_URI:latest
+          docker push $ECR_URI:$IMAGE_TAG
+          docker push $ECR_URI:latest
+
       - name: Configure kubectl
         run: |
           aws eks --region ${{ env.AWS_REGION }} update-kubeconfig --name ${{ env.CLUSTER_NAME }}
 
       - name: Atualizar Deployment com nova imagem
         run: |
-          IMAGE_URI="${{ env.AWS_ACCOUNT_ID }}.dkr.ecr.${{ env.AWS_REGION }}.amazonaws.com/ms-order:${{ github.sha }}"
-          kubectl set image deployment/ms-order-deployment ms-order=$IMAGE_URI
+          kubectl set image deployment/ms-order-deployment ms-order=$ECR_URI:${{ github.sha }}
           kubectl rollout status deployment/ms-order-deployment
 
       - name: Aplicar todos os manifests do Kubernetes
         working-directory: infra/k8s
-        run: |
-          kubectl apply -f .
+        run: kubectl apply -f .
