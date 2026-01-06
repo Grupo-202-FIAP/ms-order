@@ -42,15 +42,17 @@ jobs:
         run: terraform apply -auto-approve
 
       - name: Obter ECR URI do Terraform
-        id: ecr
+        id: tf
         working-directory: infra/terraform
-        run: echo "ECR_URI=$(terraform output -raw ecr_repository_uri)" >> $GITHUB_ENV
+        run: |
+          echo "ecr_uri=$(terraform output -raw ecr_repository_uri)" >> "$GITHUB_OUTPUT"
 
       - name: Login no Amazon ECR
         uses: aws-actions/amazon-ecr-login@v2
 
       - name: Build e Push da imagem
         env:
+          ECR_URI: ${{ steps.tf.outputs.ecr_uri }}
           IMAGE_TAG: ${{ github.sha }}
         run: |
           docker build -t $ECR_URI:$IMAGE_TAG .
@@ -60,11 +62,17 @@ jobs:
 
       - name: Configure kubectl
         run: |
-          aws eks --region ${{ env.AWS_REGION }} update-kubeconfig --name ${{ env.CLUSTER_NAME }}
+          aws eks update-kubeconfig \
+            --region ${{ env.AWS_REGION }} \
+            --name ${{ env.CLUSTER_NAME }}
 
       - name: Atualizar Deployment com nova imagem
+        env:
+          ECR_URI: ${{ steps.tf.outputs.ecr_uri }}
         run: |
-          kubectl set image deployment/ms-order-deployment ms-order=$ECR_URI:${{ github.sha }}
+          kubectl set image deployment/ms-order-deployment \
+            ms-order=$ECR_URI:${{ github.sha }}
+
           kubectl rollout status deployment/ms-order-deployment
 
       - name: Aplicar todos os manifests do Kubernetes
