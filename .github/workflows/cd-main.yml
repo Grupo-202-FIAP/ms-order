@@ -63,7 +63,7 @@ jobs:
 
       - name: Aplicar manifests do Kubernetes
         working-directory: infra/k8s
-        run: kubectl apply -f .
+        run: kubectl apply -R -f .
 
       - name: Atualizar Deployment com nova imagem (se existir)
         run: |
