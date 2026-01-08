@@ -27,8 +27,8 @@ spec:
           envFrom:
             - configMapRef:
                 name: ms-order-config
-            - secretRef:
-                name: ms-order-secrets
+#            - secretRef:
+#                name: ms-order-secrets
           env:
             - name: DD_SERVICE
               value: ms-order
@@ -36,6 +36,11 @@ spec:
               value: dev
             - name: DD_VERSION
               value: "1.0.0"
+            - name: SPRING_DATA_MONGODB_URI
+              valueFrom:
+                secretKeyRef:
+                  name: ms-order-secrets
+                  key: MONGODB_URI
           resources:
             requests:
               cpu: "100m"
