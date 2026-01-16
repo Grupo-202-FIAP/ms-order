@@ -33,14 +33,6 @@ class JsonConverterTest {
 
     private Event testEvent;
 
-    @BeforeEach
-    void setUp() {
-        testEvent = Event.builder()
-                .id(UUID.randomUUID())
-                .orderId(UUID.randomUUID())
-                .build();
-    }
-
     @Test
     void shouldConvertObjectToJsonSuccessfully() throws JsonProcessingException {
         // Given
