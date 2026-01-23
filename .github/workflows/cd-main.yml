@@ -24,7 +24,6 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-  # --- INÍCIO: BLOCO DE TESTES DE INTEGRAÇÃO ---
       - name: Set up JDK 17
         uses: actions/setup-java@v4
         with:
@@ -43,7 +42,7 @@ jobs:
         run: docker compose version
 
       - name: Subir LocalStack (Ambiente de Teste)
-        run: docker compose up -d order-localstack
+        run: docker compose up -d order-db order-localstack
 
       - name: Garantir permissão do init-aws.sh
 
@@ -63,11 +62,6 @@ jobs:
           -Dsonar.projectKey=Grupo-202-FIAP_ms-order \
           -Dsonar.organization=grupo-202-fiap \
           -Dsonar.host.url=https://sonarcloud.io
-
-      - name: Derrubar containers de teste
-
-        run: docker compose down -v
-
 
       - name: Configure AWS credentials (OIDC)
         uses: aws-actions/configure-aws-credentials@v4
