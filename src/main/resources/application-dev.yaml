@@ -4,7 +4,7 @@ spring:
 
   data:
     mongodb:
-      uri: ${MONGO_DB_URI}
+      uri: ${MONGODB_URI}
 
   cloud:
     aws:
