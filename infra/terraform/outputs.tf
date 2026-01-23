@@ -21,3 +21,4 @@ output "ssm_policy_arn" {
 output "ecr_repository_uri" {
   value = aws_ecr_repository.ms_order.repository_url
 }
+
