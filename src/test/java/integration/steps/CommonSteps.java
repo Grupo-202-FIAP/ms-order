@@ -20,16 +20,14 @@ public class CommonSteps {
     @E("o status HTTP da resposta deve ser {int}")
     public void oStatusHttpDaRespostaDeveSerStatus(int expectedStatus) {
         ResponseEntity<?> response = testContext.getLastResponse();
-        assertThat(response).isNotNull()
-                .withFailMessage("Nenhuma resposta HTTP foi registrada no contexto");
+        assertThat(response).withFailMessage("Nenhuma resposta HTTP foi registrada no contexto").isNotNull();
         assertThat(response.getStatusCode().value()).isEqualTo(expectedStatus);
     }
 
     @E("a mensagem de erro deve conter {string}")
     public void aMensagemDeErroDeveConter(String expectedMessage) {
         ResponseEntity<?> response = testContext.getLastResponse();
-        assertThat(response).isNotNull()
-                .withFailMessage("Nenhuma resposta HTTP foi registrada no contexto");
+        assertThat(response).withFailMessage("Nenhuma resposta HTTP foi registrada no contexto").isNotNull();
         
         String responseBody = (String) response.getBody();
         assertThat(responseBody)

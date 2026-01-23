@@ -1,5 +1,7 @@
 package integration.steps;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nextime.order.domain.enums.OrderStatus;
 import com.nextime.order.infrastructure.controller.dto.request.OrderItemRequest;
@@ -16,22 +18,16 @@ import io.cucumber.java.pt.Dado;
 import io.cucumber.java.pt.E;
 import io.cucumber.java.pt.Então;
 import io.cucumber.java.pt.Quando;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.test.web.client.TestRestTemplate;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import software.amazon.awssdk.services.sqs.SqsClient;
-
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
-
-import static org.assertj.core.api.Assertions.assertThat;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.test.web.client.TestRestTemplate;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
+import software.amazon.awssdk.services.sqs.SqsClient;
 
 public class OrderIntegrationSteps {
 
@@ -98,7 +94,7 @@ public class OrderIntegrationSteps {
                 testContext.setLastResponse(response);
                 if (response.getStatusCode().is2xxSuccessful() && response.getBody() != null) {
                     try {
-                        objectMapper.findAndRegisterModules(); // Para suporte a LocalDateTime
+                        objectMapper.findAndRegisterModules();
                         createdOrder = objectMapper.readValue(response.getBody(), OrderResponse.class);
                     } catch (Exception e) {
                         createdOrder = null;
@@ -117,7 +113,7 @@ public class OrderIntegrationSteps {
                 testContext.setLastResponse(response);
                 if (response.getStatusCode().is2xxSuccessful() && response.getBody() != null) {
                     try {
-                        objectMapper.findAndRegisterModules(); // Para suporte a LocalDateTime
+                        objectMapper.findAndRegisterModules();
                         createdOrder = objectMapper.readValue(response.getBody(), OrderResponse.class);
                     } catch (Exception e) {
                         createdOrder = null;
@@ -151,8 +147,7 @@ public class OrderIntegrationSteps {
     @Então("o resultado da criação deve ser {string}")
     public void oResultadoDaCriacaoDeveSer(String resultado) {
         ResponseEntity<?> response = testContext.getLastResponse();
-        assertThat(response).isNotNull()
-                .withFailMessage("Resposta HTTP não foi armazenada no contexto");
+        assertThat(response).withFailMessage("Resposta HTTP não foi armazenada no contexto").isNotNull();
         
         int statusCode = response.getStatusCode().value();
         String responseBody = response.getBody() != null ? response.getBody().toString() : "null";
@@ -204,7 +199,7 @@ public class OrderIntegrationSteps {
         
         if (response.getStatusCode().is2xxSuccessful() && response.getBody() != null) {
             try {
-                objectMapper.findAndRegisterModules(); // Para suporte a LocalDateTime
+                objectMapper.findAndRegisterModules();
                 OrderResponse[] array = objectMapper.readValue(response.getBody(), OrderResponse[].class);
                 orderList = array != null ? List.of(array) : List.of();
             } catch (Exception e) {
@@ -255,7 +250,7 @@ public class OrderIntegrationSteps {
         
         if (response.getStatusCode().is2xxSuccessful() && response.getBody() != null) {
             try {
-                objectMapper.findAndRegisterModules(); // Para suporte a LocalDateTime
+                objectMapper.findAndRegisterModules();
                 OrderResponse[] array = objectMapper.readValue(response.getBody(), OrderResponse[].class);
                 orderList = array != null ? List.of(array) : List.of();
             } catch (Exception e) {

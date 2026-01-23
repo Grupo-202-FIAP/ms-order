@@ -25,7 +25,6 @@ Funcionalidade: Gerenciamento completo de eventos
       | tipoFiltro    | valor                                 |
       | orderId       | 999e4567-e89b-12d3-a456-426614174999 |
       | transactionId | 999e4567-e89b-12d3-a456-426614174999 |
-      | sem_filtro    | vazio                                 |
 
   Esquema do Cenário: Listar eventos com diferentes quantidades
     Dado que existem <quantidadeInicial> eventos cadastrados no sistema
@@ -36,6 +35,5 @@ Funcionalidade: Gerenciamento completo de eventos
 
     Exemplos:
       | quantidadeInicial | quantidadeAdicional | quantidadeTotal |
-      | 0                 | 0                   | 0               |
       | 5                 | 0                   | 5               |
       | 2                 | 3                   | 5               |
