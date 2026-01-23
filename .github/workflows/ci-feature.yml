@@ -36,8 +36,8 @@ jobs:
       - name: Verificar Docker Compose
         run: docker compose version
 
-      - name: Subir LocalStack
-        run: docker compose up -d order-localstack
+      - name: Subir MongoDB e LocalStack
+        run: docker compose up -d order-db order-localstack
 
       - name: Garantir permissão do init-aws.sh
         run: chmod +x ./local/init-aws.sh

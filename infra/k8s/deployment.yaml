@@ -21,7 +21,7 @@ spec:
       serviceAccountName: ms-order-sa
       containers:
         - name: ms-order
-          image: 056075870573.dkr.ecr.us-east-1.amazonaws.com/ms-order:latest
+          image: 500782030170.dkr.ecr.us-east-1.amazonaws.com/ms-order:latest
           ports:
             - containerPort: 8079
           envFrom:
@@ -36,12 +36,15 @@ spec:
               value: dev
             - name: DD_VERSION
               value: "1.0.0"
+            - name: JAVA_TOOL_OPTIONS
+              value: "-XX:MaxRAMPercentage=70.0"
           resources:
             requests:
-              cpu: "100m"
-              memory: "256Mi"
+              cpu: "500m"
+              memory: "768Mi"
             limits:
-              memory: "512Mi"
+              cpu: "1"
+              memory: "1.5Gi"
           livenessProbe:
             httpGet:
               path: /actuator/health/liveness

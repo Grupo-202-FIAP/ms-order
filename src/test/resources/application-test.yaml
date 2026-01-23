@@ -1,0 +1,33 @@
+spring:
+  application:
+    name: ms-order-test
+
+  data:
+    mongodb:
+      uri: mongodb://root:password@localhost:27017/order_test?authSource=admin
+
+  cloud:
+    aws:
+      region:
+        static: us-east-1
+      credentials:
+        access-key: test
+        secret-key: test
+      sqs:
+        enabled: true
+        endpoint: http://localhost:4566
+
+  sqs:
+    queues:
+      order-queue: test-order-queue
+      order-callback-queue: test-order-callback-queue
+
+server:
+  port: 0
+
+logging:
+  level:
+    com.nextime.order: DEBUG
+    org.springframework: INFO
+    de.flapdoodle.embed.mongo: WARN
+
