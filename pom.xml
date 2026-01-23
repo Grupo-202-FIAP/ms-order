@@ -296,6 +296,13 @@
                         </goals>
                     </execution>
                     <execution>
+                        <id>verify</id>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>report</goal>
+                        </goals>
+                    </execution>
+                    <execution>
                         <id>report</id>
                         <phase>test</phase>
                         <goals>

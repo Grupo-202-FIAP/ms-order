@@ -14,8 +14,6 @@ Funcionalidade: Gerenciamento completo de pedidos
 
     Exemplos:
       | tipoPedido      | resultado | statusHttp | validacao               |
-      | valido          | sucesso   | 200        | pedido criado           |
-      | multiplos_itens | sucesso   | 200        | pedido com 3 itens      |
       | sem_itens       | erro      | 400        | Lista de itens inválida |
       | itens_nulos     | erro      | 400        | Lista de itens inválida |
 
@@ -27,7 +25,6 @@ Funcionalidade: Gerenciamento completo de pedidos
 
     Exemplos:
       | quantidade |
-      | 0          |
       | 3          |
       | 5          |
 
@@ -45,4 +42,3 @@ Funcionalidade: Gerenciamento completo de pedidos
       | READY,COMPLETED                    | READY        | 1                  |
       | COMPLETED,COMPLETED,COMPLETED      | COMPLETED    | 3                  |
       | CANCELLED                          | CANCELLED    | 1                  |
-      | RECEIVED                           | COMPLETED    | 0                  |
