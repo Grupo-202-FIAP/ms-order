@@ -11,12 +11,9 @@ resource "aws_iam_role" "ms_order_irsa" {
       Action = "sts:AssumeRoleWithWebIdentity"
       Condition = {
         StringEquals = {
-          format(
-            "%s:sub",
-            data.terraform_remote_state.kubernetes.outputs.cluster_oidc_provider_url
-          ) = "system:serviceaccount:default:ms-order-sa"
+          "${data.terraform_remote_state.kubernetes.outputs.cluster_oidc_provider_url}:sub" = "system:serviceaccount:default:ms-order-sa"
+          "${data.terraform_remote_state.kubernetes.outputs.cluster_oidc_provider_url}:aud" = "sts.amazonaws.com"
         }
-
       }
     }]
   })

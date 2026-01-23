@@ -8,7 +8,8 @@ resource "aws_iam_policy" "ms_order_sqs" {
       Action = [
         "sqs:ReceiveMessage",
         "sqs:DeleteMessage",
-        "sqs:GetQueueAttributes"
+        "sqs:GetQueueAttributes",
+        "sqs:ChangeMessageVisibility"
       ]
       Resource = [
         data.terraform_remote_state.sqs.outputs.sqs_queue_arns["order-callback-queue"],
